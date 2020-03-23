@@ -2,7 +2,7 @@
 data/
 
 # Build directory
-dist
+dist/
 
 # Logs
 logs
