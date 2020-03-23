@@ -55,11 +55,11 @@ function attend(user: Discord.GuildMember, msg: Discord.Message) {
 	if (accounts[user.id] == undefined) {
 		if (pipeline) {
 			updateAccount(user, pipeline);
-			msg.reply("You are marked for attendance and I now know who you are. You no longer need to specify your Pipeline ID in the future when running `!attend`");
+			msg.reply("I now know who you are. You no longer need to specify your Pipeline ID in the future when running `!attend`");
 		} else {
 			msg.reply("Who are you? Re-run with `!attend your-pipeline-id`");
+			return;
 		}
-		return;
 	}
 	if (schedule = rosters.attend(accounts[user.id], time, schedules)) {
 		let date = new Date(time);
