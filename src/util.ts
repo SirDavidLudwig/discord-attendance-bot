@@ -1,5 +1,17 @@
 import Discord from "discord.js";
 
+/**
+ * Calculate the number of milliseconds passed today
+ */
+export function millisecondsInDay(time?: number) {
+	let d = new Date();
+	d.setHours(0, 0, 0, 0);
+	return (time != undefined ? time : Date.now()) - d.getTime();
+}
+
+/**
+ * Parse a time string
+ */
 export function parseTime(time: string) {
 	let [hour, min] = time.split(':').map(Number);
 	let d = new Date();
@@ -7,6 +19,9 @@ export function parseTime(time: string) {
 	return d;
 }
 
+/**
+ * Parse a complete date string
+ */
 export function parseDate(date: string, time: string) {
 	return new Date(`${date} ${time}`);
 }
@@ -14,13 +29,15 @@ export function parseDate(date: string, time: string) {
 /**
  * Parse a time range
  */
-export function timeRange(range: string) {
+export function parseTimeRange(range: string) {
 	let [startH, startM, endH, endM] = range.split(/[\:\-]/).map(Number);
+	let d = new Date();
 	let start = new Date();
 	let end = new Date();
+	d.setHours(0, 0, 0, 0);
 	start.setHours(startH, startM, 0, 0);
 	end.setHours(endH, endM, 0, 0);
-	return [start.getTime(), end.getTime()];
+	return [start.getTime() - d.getTime(), end.getTime() - d.getTime()];
 }
 
 export function inRange(value: any, start: any, end: any) {

@@ -1,5 +1,5 @@
 import jsonfile from "jsonfile"
-import { timeRange, inRange } from "./util";
+import { parseTimeRange, inRange, millisecondsInDay } from "./util";
 
 /**
  * Raw schedule JSON information
@@ -55,7 +55,7 @@ export class ScheduleManager
 			schedules[course] = [];
 			for (let code in json[course]) {
 				for (let days in json[course][code]) {
-					let [start, end] = timeRange(json[course][code][days]);
+					let [start, end] = parseTimeRange(json[course][code][days]);
 					schedules[course].push({course, code, days, start, end});
 				}
 			}
@@ -70,8 +70,9 @@ export class ScheduleManager
 	 */
 	public find(time: number, course: string) {
 		let day = "UMTWRFS"[new Date(time).getDay()];
+		let ms = millisecondsInDay(time);
 		for (let schedule of this.__schedules[course]) {
-			if (schedule.days.indexOf(day) != -1 && inRange(time, schedule.start, schedule.end)) {
+			if (schedule.days.indexOf(day) != -1 && inRange(ms, schedule.start, schedule.end)) {
 				return schedule;
 			}
 		}
